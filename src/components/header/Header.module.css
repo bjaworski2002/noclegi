@@ -1,0 +1,9 @@
+.header{
+    height: 50px;
+    background-color: #cdcdcd;
+    display: flex;
+    justify-content: center;
+    background: url(../../assets/images/header.jpg) center;
+    background-size: cover;
+    align-items: center;
+}
