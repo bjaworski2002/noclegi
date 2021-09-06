@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Toast, ToastBody, ToastHeader} from 'reactstrap';
+import {Toast, ToastBody, ToastHeader} from 'reactstrap';
 import {ThemeContext} from "../context/Context";
 import moment from 'moment'
+import {Link} from "react-router-dom";
 
 const Example = (props) => {
 
@@ -35,7 +36,7 @@ const Example = (props) => {
                 <h4>{hotel.name}</h4>
                 <h6>{hotel.rank} &#9734;</h6>
                 <p>Do końca oferty pozostało: {time}</p>
-                <Button color={`${theme.theme}`} style={{color: `white`}}> Zobacz! </Button>
+                <Link to={`/hotels/${hotel.id}`} className={"btn btn-sm btn-primary"}> Zobacz! </Link>
             </ToastBody>
         </Toast>
     );

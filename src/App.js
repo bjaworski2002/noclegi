@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useReducer} from 'react'
+import React, {lazy, Suspense, useReducer} from 'react'
 import {Button} from 'reactstrap';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Header from "./components/header/Header.js"
@@ -12,7 +12,12 @@ import {initialState, reducer} from "./components/hooks/appreducer/AppReducer";
 import Home from "./pages/Home/Home";
 import HotelPage from "./pages/HotelPage/HotelPage";
 import Search from "./pages/Search/Search";
-import Profile from "./pages/Profile/Profile";
+import NotFound from "./pages/404/404";
+import Login from "./pages/Auth/Login/Login";
+import AuthenticatedRoute from "./components/AuthenticatedRoute/AuthenticatedRoute";
+import ErrorBoundary from "./components/HOC/ErrorBoundary";
+
+const Profile = lazy(() => import("./pages/Profile/Profile"))
 
 function App() {
 
@@ -27,15 +32,20 @@ function App() {
     const menu = <Menu/>
     const content = (
         <div>
-            <Switch>
-                <Route path={"/hotels/:id"} component={HotelPage}/>
-                <Route path={"/wyszukaj/:term"} component={Search}/>
-                <Route path={"/profile"} component={Profile}/>
-                <Route path={"/"} component={Home}/>
-            </Switch>
+            <Suspense fallback={<p>Loading</p>}>
+                <Switch>
+                    <AuthenticatedRoute path={"/profile"} isAuthenticated={state.isAuthenticated} component={Profile}/>
+                    <Route path={"/hotels/:id"} component={HotelPage}/>
+                    <Route path={"/wyszukaj/:term?"} component={Search}/>
+                    <Route path={"/zaloguj"} component={Login}/>
+                    <Route path={"/"} exact component={Home}/>
+                    <Route component={NotFound}/>
+                </Switch>
+            </Suspense>
         </div>
     )
-    const footer = <Footer/>
+    const footer =
+        <Footer/>
 
 
     return (
@@ -53,12 +63,14 @@ function App() {
                         state: state,
                         dispatch: dispatch
                     }}>
-                        <Layout
-                            header={header}
-                            menu={menu}
-                            content={content}
-                            footer={footer}
-                        />
+                        <ErrorBoundary>
+                            <Layout
+                                header={header}
+                                menu={menu}
+                                content={content}
+                                footer={footer}
+                            />
+                        </ErrorBoundary>
                     </ReducerContext.Provider>
                 </ThemeContext.Provider>
             </AuthContext.Provider>
