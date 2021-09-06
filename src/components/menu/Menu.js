@@ -39,7 +39,7 @@ export default function Menu(props) {
                     ) :
                     (
                         <NavItem>
-                            <NavLink to="#" onClick={login}>Zaloguj się!</NavLink>
+                            <NavLink to="/zaloguj" /*onClick={login}*/>Zaloguj się!</NavLink>
                         </NavItem>
                     )
                 }
