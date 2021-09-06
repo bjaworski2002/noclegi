@@ -1,9 +1,23 @@
-.header{
-    height: 50px;
-    background-color: #cdcdcd;
+.header {
+    height: 100px;
     display: flex;
     justify-content: center;
-    background: url(../../assets/images/header.jpg) center;
-    background-size: cover;
     align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.headerImg {
+    background: #cdcdcd url(../../assets/images/header.jpg) center;
+    background-size: 110%;
+    position: absolute;
+    top: -5%;
+    bottom: -5%;
+    left: -5%;
+    right: -5%;
+    z-index: -1;
+}
+
+.header * {
+    margin-left: 0.2em;
 }

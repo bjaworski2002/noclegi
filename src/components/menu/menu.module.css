@@ -1,5 +1,9 @@
-.nav{
+.nav {
     padding: 20px;
     background-color: #EEEEEE;
     border-bottom: 2px solid black;
+}
+
+.menuItem {
+    text-decoration: line-through;
 }

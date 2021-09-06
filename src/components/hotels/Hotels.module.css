@@ -1,13 +1,14 @@
-.title{
+.title {
     color: #303030;
     font-size: 1.2rem;
     font-weight: bold;
 }
-.cont{
+
+.cont {
     margin: 30px;
-    border: 1px solid gray;
 }
-.hotels{
+
+.hotels {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;

@@ -1,53 +1,69 @@
 import './App.css';
-import React, {Component} from 'react'
+import React, {useReducer} from 'react'
+import {Button} from 'reactstrap';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Header from "./components/header/Header.js"
 import Menu from "./components/menu/Menu.js"
-import Hotels from "./components/hotels/Hotels";
-import LoadingIcon from "./components/UI/loadingicon/LoadingIcon";
+import SearchBar from "./components/header/searchbar/Searchbar";
+import Layout from "./components/layout/Layout";
+import Footer from "./components/footer/Footer";
+import {AuthContext, ReducerContext, ThemeContext} from "./components/context/Context";
+import {initialState, reducer} from "./components/hooks/appreducer/AppReducer";
+import Home from "./pages/Home/Home";
+import HotelPage from "./pages/HotelPage/HotelPage";
+import Search from "./pages/Search/Search";
+import Profile from "./pages/Profile/Profile";
 
-class App extends Component {
-    hotels = [
-        {
-            id: 1,
-            name: 'Pensjonat',
-            description: "Lorem ipsum, losowe słowa stworzone żeby stworzyć templatkę. Super!"
-        },
-        {
-            id: 2,
-            name: 'Hotel',
-            description: "Lorem ipsum, losowe słowa stworzone żeby stworzyć templatkę. Super!"
-        },
-    ]
-    state = {
-        hotels: [],
-        loading: true,
-    }
+function App() {
 
-    searchHandler(term) {
-        //console.log(this)
-        console.log("Wyszukano!", term)
-        const hotels = [...this.hotels]
-            .filter(x => x.name.toLowerCase().includes(term.toLowerCase()))
-        console.log(hotels)
-        this.setState({hotels})
-    }
+    const [state, dispatch] = useReducer(reducer, initialState)
 
-    render() {
-        return (
-            <div className="App">
-                <Header onSearch={(term) => this.searchHandler(term)}/>
-                <Menu/>
-                {this.state.loading ? <LoadingIcon/> : <Hotels hotels={this.state.hotels}/>}
-            </div>
-        );
-    }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({hotels: this.hotels})
-            this.setState({loading: false})
-        }, 1000)
-    }
-}
+    const header = (
+        <Header>
+            <SearchBar/>
+            <Button onClick={() => dispatch({type: 'change-theme'})}>Zmień Kolor!</Button>
+        </Header>)
+    const menu = <Menu/>
+    const content = (
+        <div>
+            <Switch>
+                <Route path={"/hotels/:id"} component={HotelPage}/>
+                <Route path={"/wyszukaj/:term"} component={Search}/>
+                <Route path={"/profile"} component={Profile}/>
+                <Route path={"/"} component={Home}/>
+            </Switch>
+        </div>
+    )
+    const footer = <Footer/>
+
+
+    return (
+        <Router>
+            <AuthContext.Provider value={{
+                isAuthenticated: state.isAuthenticated,
+                login: () => dispatch({type: 'login'}),
+                logout: () => dispatch({type: 'logout'}),
+            }}>
+                <ThemeContext.Provider value={{
+                    theme: state.theme,
+                    changeTheme: () => dispatch({type: 'change-theme'})
+                }}>
+                    <ReducerContext.Provider value={{
+                        state: state,
+                        dispatch: dispatch
+                    }}>
+                        <Layout
+                            header={header}
+                            menu={menu}
+                            content={content}
+                            footer={footer}
+                        />
+                    </ReducerContext.Provider>
+                </ThemeContext.Provider>
+            </AuthContext.Provider>
+        </Router>
+    )
+};
 
 export default App;
