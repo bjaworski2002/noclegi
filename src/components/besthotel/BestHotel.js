@@ -76,7 +76,11 @@ const Example = (props) => {
                 <p>Do końca oferty pozostało: {time}</p>
                 <Link to={`/hotels/${hotel.id}`} className={"btn btn-sm btn-primary"}> Zobacz! </Link>
             </div>
-            <div>111</div>
+            <img className={styles.imageContainer} src={hotelImg}/>
+            {/*<div className={styles.container}>
+
+            </div>
+            <div>111</div>*/}
             {/*<img className={styles.imageContainer} src={hotelImg}/>*/}
         </div>
     );

@@ -9,17 +9,30 @@
     justify-content: space-between;
     align-items: center;
 }
-.menuItem{
+
+.menuItem {
     color: #FFFFFF;
     margin-left: 0.4rem;
     margin-right: 0.4rem;
     border-radius: 0.8rem;
     text-decoration: none;
 }
-.menuItem:hover{
+
+.menuRight {
+    color: #FFFFFF;
+}
+
+.menuItem:hover {
     color: #DDDDDD;
 }
+
 .menuActiveItem {
     padding: 0.7rem;
     background-color: #4B0082;
+}
+
+@media (max-width: 550px) {
+    .menuRight {
+        display: none;
+    }
 }
