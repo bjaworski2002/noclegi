@@ -4,8 +4,7 @@ import styles from "./menu.module.css"
 import useAuth from "../hooks/useauth/useAuth";
 import {NavLink} from "react-router-dom";
 
-export default function Menu(props) {
-
+export default function Menu(props){
     const [auth, setAuth] = useAuth()
 
     const login = (e) => {
@@ -18,32 +17,25 @@ export default function Menu(props) {
         setAuth(false)
     }
     return (
-        <div className={styles.nav}>
-            <Nav className={`navbar navbar-${props.theme}`} style={{
-                display: "flex",
-                justifyContent: "space-around",
-            }}>
-                <NavItem>
-                    <NavLink exact to={"/"} activeClassName={styles.menuItem}>Home</NavLink>
-                </NavItem>
+        <div>
+            <nav className={styles.nav}>
+                <div>
+                    <NavLink exact to={"/"} className={styles.menuItem} activeClassName={styles.menuActiveItem}>Home</NavLink>
 
                 {auth ?
                     (<>
-                            <NavItem>
-                                <NavLink to={"/profile"} activeClassName={styles.menuItem}>Mój Profil</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink to="#" onClick={logout}>Wyloguj się!</NavLink>
-                            </NavItem>
+                            <NavLink to={"/profile"} className={styles.menuItem} activeClassName={styles.menuActiveItem}>Mój Profil</NavLink>
+                            <NavLink to="#" className={styles.menuItem} onClick={logout}>Wyloguj się!</NavLink>
                         </>
                     ) :
                     (
-                        <NavItem>
-                            <NavLink to="/zaloguj" /*onClick={login}*/>Zaloguj się!</NavLink>
-                        </NavItem>
+                        <NavLink to="/zaloguj" activeClassName={styles.menuActiveItem} className={styles.menuItem} /*onClick={login}*/>Zaloguj się!</NavLink>
                     )
                 }
-
-            </Nav>
+                </div>
+                <div className={styles.menuItem}>
+                    Bartosz Jaworski © 2021
+                </div>
+            </nav>
         </div>)
 }

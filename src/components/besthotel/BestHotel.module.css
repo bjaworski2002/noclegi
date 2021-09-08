@@ -1,0 +1,17 @@
+.main{
+    display: flex;
+    justify-content: center;
+    background-color: #303030;
+}
+.container{
+    background-color: #202020;
+    color: white;
+    padding: 1.2rem 5rem 1.2rem;
+    border-radius: 1rem;
+}
+.imageContainer{
+    max-height: 50%;
+    max-width: 50%;
+    height: 40%;
+    width: 40%;
+}
