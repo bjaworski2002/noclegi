@@ -4,6 +4,6 @@ export default function LoadingButton(props) {
                 <span className="sr-only"></span>
             </div>
         ) :
-        (<button className={"btn btn-primary mx-4 mt-3"}>Zapisz!</button>)
+        (<button {...props} className={"btn btn-primary mx-4 mt-3"}>Zapisz!</button>)
 
 }
