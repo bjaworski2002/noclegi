@@ -1,15 +1,65 @@
+import {useEffect, useState} from "react";
+import LoadingButton from "../../../components/UI/loadingbutton/LoadingButton";
+import validateEmail from "../../../helpers/Validations"
+
 export default function ProfileDetails(props) {
+
+    const [email, setEmail] = useState('default@template.pl')
+    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [errors, setErrors] = useState({
+        email: "",
+        password: ""
+    })
+
+    const buttonDisabled = Object.values(errors).filter(x => x).length;
+
+    const submit = (e) => {
+        e.preventDefault()
+        console.log(email, password)
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
+    }
+
+    const emailHandler = useEffect(() => {
+        if (validateEmail(email)) {
+            setErrors({...errors, email: ''})
+        } else {
+            setErrors({...errors, email: 'Niepoprawny Email'})
+        }
+    }, [email])
+
+    const passwordHandler = useEffect(() => {
+        if (password.length >= 4 || !password) {
+            setErrors({...errors, password: ''})
+        } else {
+            setErrors({...errors, password: 'Wymagane 4 znaki!'})
+        }
+    }, [password])
     return (
-        <form>
+        <form onSubmit={submit}>
             <div className={"form-group"}>
                 <label>Email</label>
-                <input type={"email"} value={"bjaworski2002@gmail.com"} className={"form-control"}/>
+                <input type={"email"} name={"email"}
+                       className={`form-control ${errors.email ? 'is-invalid' : 'is-valid'}`}
+                       value={email}
+                       onChange={(e) => setEmail(e.target.value)}/>
+                <div className={"invalid-feedback"}>{errors.email}</div>
             </div>
             <div className={"form-group"}>
                 <label>Hasło</label>
-                <input type={"password"} placeholder={"***** ***"} className={"form-control"}/>
+                <input type={"password"}
+                       name={"password"}
+                       value={password}
+                       onChange={(e) => setPassword(e.target.value)}
+                       placeholder={"***** ***"}
+                       className={`form-control ${errors.password ? 'is-invalid' : 'is-valid'}`}
+                />
+                <div className={"invalid-feedback"}>{errors.password}</div>
             </div>
-            <button className={"btn btn-primary mx-4 mt-3"}>Zapisz!</button>
+            <LoadingButton loading={loading} disabled={buttonDisabled}/>
         </form>
     )
 }
