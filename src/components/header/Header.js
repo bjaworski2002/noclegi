@@ -9,7 +9,7 @@ function Header(props) {
     return (
         <header className={`${styles.header}`}>
             <div style={paralaxStyles} className={styles.headerImg}></div>
-            {props.children}
+            <div className={styles.headElements}>{props.children}</div>
         </header>)
 }
 

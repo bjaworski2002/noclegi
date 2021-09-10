@@ -27,8 +27,8 @@ function App() {
 
     const header = (
         <Header>
-            <SearchBar/>
-            <Button onClick={() => dispatch({type: 'change-theme'})}>Zmień Kolor!</Button>
+                <SearchBar/>
+                <Button onClick={() => dispatch({type: 'change-theme'})}>Zmień Kolor!</Button>
         </Header>)
     const menu = <Menu/>
     const content = (
