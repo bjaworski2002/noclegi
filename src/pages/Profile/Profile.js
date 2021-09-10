@@ -5,15 +5,15 @@ import React from "react";
 
 export default function Profile(props) {
     const {path, url} = useRouteMatch()
-    
+
     return (
         <div className={"card border-1 m-4"}>
             <div className={"card-header"}>
                 <h2>Mój profil</h2>
             </div>
             <div className={"card-body"}>
-                <ul class={"nav nav-tabs"}>
-                    <li class={"nav-item"}>
+                <ul className={"nav nav-tabs"}>
+                    <li className={"nav-item"}>
                         <NavLink className={"nav-link"} to={`${url}/edytuj`}>Profil</NavLink>
                     </li>
                     <li className={"nav-item"}>
