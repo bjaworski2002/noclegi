@@ -112,12 +112,20 @@ const InputRadio = (props) => {
     )
 }
 export default function Input(props) {
-    if (props.type === 'text') return <InputText {...props} />
-    if (props.type === 'textarea') return <InputTextArea {...props} />
-    if (props.type === 'select') return <InputSelect {...props}/>
-    if (props.type === 'checkbox') return <InputCheckbox {...props}/>
-    if (props.type === 'file') return <InputFile {...props}/>
-    if (props.type === 'radio') return <InputRadio {...props}/>
+    switch (props.type) {
+        case 'text':
+            return <InputText {...props} />
+        case 'textarea':
+            return <InputTextArea {...props} />
+        case 'select':
+            return <InputSelect {...props}/>
+        case 'checkbox':
+            return <InputCheckbox {...props}/>
+        case 'file':
+            return <InputFile {...props}/>
+        case 'radio':
+            return <InputRadio {...props}/>
+    }
 }
 Input.defaultProps =
     {
