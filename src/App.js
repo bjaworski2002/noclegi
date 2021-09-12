@@ -17,6 +17,7 @@ import Login from "./pages/Auth/Login/Login";
 import AuthenticatedRoute from "./components/HOC/AuthenticatedRoute";
 import ErrorBoundary from "./components/HOC/ErrorBoundary";
 import AddHotel from "./pages/Profile/MyHotels/AddHotel/AddHotel";
+import Register from "./pages/Auth/Register/Register";
 
 const Profile = lazy(() => import("./pages/Profile/Profile"))
 
@@ -27,8 +28,8 @@ function App() {
 
     const header = (
         <Header>
-                <SearchBar/>
-                <Button onClick={() => dispatch({type: 'change-theme'})}>Zmień Kolor!</Button>
+            <SearchBar/>
+            <Button onClick={() => dispatch({type: 'change-theme'})}>Zmień Kolor!</Button>
         </Header>)
     const menu = <Menu/>
     const content = (
@@ -41,6 +42,7 @@ function App() {
                     <Route path={"/hotels/:id"} component={HotelPage}/>
                     <Route path={"/wyszukaj/:term?"} component={Search}/>
                     <Route path={"/zaloguj"} component={Login}/>
+                    <Route path={"/rejestracja"} component={Register}/>
                     <Route path={"/"} exact component={Home}/>
                     <Route component={NotFound}/>
                 </Switch>

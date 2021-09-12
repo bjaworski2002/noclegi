@@ -30,8 +30,12 @@ export default function Menu(props) {
                             </>
                         ) :
                         (
-                            <NavLink to="/zaloguj" activeClassName={styles.menuActiveItem}
-                                     className={styles.menuItem} /*onClick={login}*/>Zaloguj się!</NavLink>
+                            <>
+                                <NavLink to="/zaloguj" activeClassName={styles.menuActiveItem}
+                                         className={styles.menuItem} /*onClick={login}*/>Zaloguj się!</NavLink>
+                                <NavLink to="/rejestracja" activeClassName={styles.menuActiveItem}
+                                         className={styles.menuItem} /*onClick={login}*/>Zarejestruj się!</NavLink>
+                            </>
                         )
                     }
                 </div>

@@ -13,6 +13,19 @@ const InputText = (props) => {
         </div>
     )
 }
+const InputPassword = (props) => {
+    return (
+        <div className={"form-group"}>
+            <label>{props.label}</label>
+            <input type={"password"}
+                   className={`form-control ${props.error && props.showError ? 'is-invalid' : ''}`}
+                   value={props.value}
+                   onChange={e => props.onChange(e.target.value)}
+            />
+            <div className={"invalid-feedback"}>{props.error}</div>
+        </div>
+    )
+}
 
 const InputTextArea = (props) => {
     return (
@@ -125,6 +138,8 @@ export default function Input(props) {
             return <InputFile {...props}/>
         case 'radio':
             return <InputRadio {...props}/>
+        case 'password':
+            return <InputPassword {...props}/>
     }
 }
 Input.defaultProps =
