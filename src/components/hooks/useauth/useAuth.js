@@ -7,12 +7,15 @@ export default function useAuth() {
 
     const auth = authContext.isAuthenticated;
 
-    const setAuth = (value) => {
-        console.log(value)
-        if (value) {
+    const setAuth = (isAuthenticated, tokenData = null) => {
+        if (isAuthenticated) {
             authContext.login()
+            if (tokenData) {
+                window.localStorage.setItem('token-data', JSON.stringify(tokenData))
+            }
         } else {
             authContext.logout()
+            window.localStorage.removeItem('token-data')
         }
     }
     return [auth, setAuth]

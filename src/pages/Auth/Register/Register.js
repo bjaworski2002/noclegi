@@ -2,11 +2,14 @@ import Input from "../../../components/input/Input";
 import LoadingButton from "../../../components/UI/loadingbutton/LoadingButton";
 import {useState} from 'react'
 import {validate} from "../../../helpers/Validations";
-import axios from "../../../axios";
+import axios from "axios";
+import useAuth from "../../../components/hooks/useauth/useAuth";
+import {useHistory} from "react-router-dom";
 
 export default function Register(props) {
+    const history = useHistory()
     const [loading, setLoading] = useState(false)
-
+    const [auth, setAuth] = useAuth()
     const [form, setForm] = useState({
         email: {
             value: '',
@@ -24,18 +27,28 @@ export default function Register(props) {
     const valid = !Object.values(form).map(input => input.error).filter(error => error).length;
 
     const submit = async e => {
-        e.preventDefault()
-        setLoading(true)
-        const res = await axios.get('/users.json')
-        console.log(res)
+        try {
+            e.preventDefault()
+            setLoading(true)
+            const res = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBbZNzwAcMW5xQcewdONFUEvVuXPQcw18o', {
+                email: form.email.value,
+                password: form.password.value,
+                returnSecureToken: true,
+            })
+            setAuth(true, res.data)
+            history.push('/')
+        } catch (ex) {
+            console.log(ex.response)
+        }
 
-        setTimeout(() => {
-            setLoading(false)
-        }, 500)
+        setLoading(false)
     }
     const changeHandler = (value, fieldName) => {
         const error = validate(form[fieldName].rules, value)
         setForm({...form, [fieldName]: {...form[fieldName], value, showError: true, error: error}})
+    }
+    if (auth) {
+        history.push('/')
     }
     return (
         <div className={"card"}>
