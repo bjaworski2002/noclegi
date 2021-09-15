@@ -1,7 +1,7 @@
 export const initialState = {
     theme: 'primary',
     hotels: [],
-    isAuthenticated: false,
+    user: JSON.parse(window.localStorage.getItem('token-data')) ?? null,
 }
 
 export const reducer = (state, action) => {
@@ -9,9 +9,9 @@ export const reducer = (state, action) => {
         case 'change-theme':
             return {...state, theme: state.theme === 'primary' ? state.theme = 'success' : state.theme = 'primary'}
         case 'login':
-            return {...state, isAuthenticated: true}
+            return {...state, user: action.user}
         case 'logout':
-            return {...state, isAuthenticated: false}
+            return {...state, user: null}
         default:
             throw new Error(`nie ma takiej akcji! ${action.type}`)
     }

@@ -1,26 +1,44 @@
 import {useEffect, useState} from "react";
 import LoadingButton from "../../../components/UI/loadingbutton/LoadingButton";
 import validateEmail from "../../../helpers/Validations"
+import useAuth from "../../../components/hooks/useauth/useAuth";
+import axiosAuth from "../../../axiosAuth";
 
 export default function ProfileDetails(props) {
-
-    const [email, setEmail] = useState('default@template.pl')
+    const [auth, setAuth] = useAuth()
+    const [email, setEmail] = useState(auth.email)
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState({
         email: "",
         password: ""
     })
-
+    const [success, setSuccess] = useState(false)
     const buttonDisabled = Object.values(errors).filter(x => x).length;
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault()
-        console.log(email, password)
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 500)
+
+        const data = {
+            idToken: auth.token,
+            email: email,
+            returnSecureToken: true,
+        }
+        if (password) {
+            data.password = password
+        }
+        try {
+            const res = await axiosAuth.post('accounts:update', data)
+            setAuth({
+                email: res.data.email,
+                token: res.data.token,
+                userId: res.data.idToken
+            })
+            setSuccess(true)
+        } catch (ex) {
+
+        }
+        setLoading(false)
     }
 
     const emailHandler = useEffect(() => {
@@ -40,6 +58,7 @@ export default function ProfileDetails(props) {
     }, [password])
     return (
         <form onSubmit={submit}>
+            {success ? (<div className={"alert alert-success"}>Dane zapisane</div>) : null}
             <div className={"form-group"}>
                 <label>Email</label>
                 <input type={"email"} name={"email"}

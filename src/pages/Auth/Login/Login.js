@@ -2,6 +2,7 @@ import {useState} from 'react'
 import useAuth from "../../../components/hooks/useauth/useAuth";
 import {useHistory} from "react-router-dom";
 import LoadingButton from "../../../components/UI/loadingbutton/LoadingButton";
+import axiosAuth from "../../../axiosAuth";
 
 export default function Login(props) {
 
@@ -10,25 +11,35 @@ export default function Login(props) {
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [valid, setValid] = useState(null)
-
+    const [error, setError] = useState('')
     const history = useHistory()
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault()
-        console.log(email, password)
         setLoading(true)
-        setTimeout(() => {
-            if (true) {
-                setAuth(true)
-                history.push('/')
-            } else {
-                setValid(false)
-                setPassword("")
-            }
+        try {
+            const res = await axiosAuth.post('/accounts:signInWithPassword', {
+                email,
+                password,
+                returnSecureToken: true,
+            })
+            console.log(res)
             setLoading(false)
-        }, 500)
+            setAuth({
+                email: res.data.email,
+                token: res.data.token,
+                userId: res.data.idToken
+            })
+            history.push('/')
+        } catch (ex) {
+            setError(ex.response.data.error.message)
+            console.log(ex.response)
+            setLoading(false)
+        }
     }
-
+    if (auth) {
+        history.push('/')
+    }
     return (
         <div className={"p-4"}>
             <h2>Logowanie</h2>
@@ -51,6 +62,7 @@ export default function Login(props) {
                            className={"form-control"}
                     />
                 </div>
+                {error ? (<div className={"alert alert-danger"}>{error}</div>) : null}
                 <LoadingButton loading={loading}/>
             </form>
         </div>
